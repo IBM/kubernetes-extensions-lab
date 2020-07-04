@@ -287,12 +287,6 @@ Create a [new Operator](https://docs.openshift.com/container-platform/4.3/operat
 ```
 $ export DOCKER_USERNAME=<your-docker-username>
 
-$ export OPERATOR_NAME=ngx-app-operator
-$ export OPERATOR_PROJECT=ngx-app-operator-project
-$ export OPERATOR_GROUP=ngx-app.remkoh.dev
-$ export OPERATOR_API=v1
-$ export CRD_KIND=NgxAppService
-
 $ export OPERATOR_NAME=guestbook-operator
 $ export OPERATOR_PROJECT=guestbook-project
 $ export OPERATOR_GROUP=guestbook.remkoh.dev

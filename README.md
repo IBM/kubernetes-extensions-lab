@@ -1,12 +1,15 @@
 # Kubernetes Extensions
 
 - Access the web-terminal
-- Login to IBM Cloud
-- Login to OpenShift
+- Login 
 - Create a Custom Resource
-- Create an Operator
+- Operators
+  - Ready Made Operators
 - Create a Custom Resource and Operator using the Operator SDK
-- Create an Application Custom Resource
+    - Install sdk-operator
+    - Create the Operator
+    - Cleanup
+- Application CRD
 
 ## Access the web-terminal
 
@@ -44,7 +47,7 @@ Copy Login command
 oc login --token=_12AbcD345kIPDIRg2jYpCuZ-g5SM5Im9irY2tol4Q8 --server=https://c100-e.us-south.containers.cloud.ibm.com:30712
 ```
 
-## Custom Resource (CR)
+## Create a Custom Resource (CR)
 
 https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/
 
@@ -237,7 +240,7 @@ At the [OperatorHub.io](https://operatorhub.io/), you find ready to use operator
 
 ![OperatorHub.io](./images/operatorhub.png)
 
-## Write your own operator
+## Create a Custom Resource and Operator using the Operator SDK
 
 To write your own operator you can use existing tools:
 - [KUDO](https://kudo.dev/) (Kubernetes Universal Declarative Operator),
@@ -500,3 +503,49 @@ $ oc delete customresourcedefinition ${CRD_KIND,,}s.${OPERATOR_GROUP}
 $ oc delete deployment $OPERATOR_PROJECT
 ```
 
+## Application CRD
+
+The [Application CRD (Custom Resource Definition)](https://github.com/kubernetes-sigs/application) and Controller provide the following:
+- Describe an applications metadata,
+- A point to connect the infrastructure, such as Deployments, to as a root object.
+- 
+- Application level health checks.
+
+This could be used by:
+- Application operators,
+- Tools, such as Helm, and
+- Dashboards.
+
+```
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: "guestbook"
+  labels:
+    app.kubernetes.io/name: "guestbook"
+spec:
+  selector:
+    matchLabels:
+     app.kubernetes.io/name: "guestbook"
+  componentKinds:
+    - group: v1
+      kind: Deployment
+    - group: v1
+      kind: Service
+  descriptor:
+    type: "guestbook"
+    keywords:
+      - "gb"
+      - "guestbook"
+    links:
+      - description: Github
+        url: "https://github.com/IBM/guestbook"
+    version: "0.1.0"
+    description: "The Guestbook application is an example app to demonstrate key Kubernetes functionality."
+    maintainers:
+      - name: IBM Developer
+        email: developer@ibm.com
+    owners:
+      - name: IBM Developer
+        email: developer@ibm.com
+```
